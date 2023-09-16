@@ -42,7 +42,8 @@ fn setup(
                 margin: UiRect::all(Val::Auto),
                 justify_content: JustifyContent::Center,
                 align_items: AlignItems::Center,
-                size: Size::new(Val::Px(500.), Val::Px(300.)),
+                width: Val::Px(500.),
+                height: Val::Px(300.),
                 ..Default::default()
             },
             nine_patch_data: NinePatchData::with_single_content(

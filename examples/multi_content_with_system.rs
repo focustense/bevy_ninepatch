@@ -1,4 +1,5 @@
 use bevy::prelude::*;
+use bevy::reflect::TypePath;
 
 use bevy_ninepatch::{
     NinePatchBuilder, NinePatchBundle, NinePatchContent, NinePatchData, NinePatchPlugin,
@@ -8,9 +9,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     App::default()
         .add_plugins(DefaultPlugins)
         // Add the `NinePatchPlugin` plugin
-        .add_plugin(NinePatchPlugin::<Content>::default())
-        .add_startup_system(setup)
-        .add_system(set_content)
+        .add_plugins(NinePatchPlugin::<Content>::default())
+        .add_systems(Startup, setup)
+        .add_systems(Update, set_content)
         .run();
 
     Ok(())
@@ -39,7 +40,8 @@ fn setup(
                 margin: UiRect::all(Val::Auto),
                 justify_content: JustifyContent::Center,
                 align_items: AlignItems::Center,
-                size: Size::new(Val::Px(500.), Val::Px(300.)),
+                width: Val::Px(500.),
+                height: Val::Px(300.),
                 ..Default::default()
             },
             nine_patch_data: NinePatchData {
@@ -84,7 +86,8 @@ fn set_content(
                                     },
                                     justify_content: JustifyContent::Center,
                                     align_items: AlignItems::Center,
-                                    size: Size::new(Val::Px(200.), Val::Px(100.)),
+                                    width: Val::Px(200.),
+                                    height: Val::Px(100.),
                                     ..Default::default()
                                 },
                                 nine_patch_data: NinePatchData {
@@ -132,7 +135,7 @@ fn set_content(
     }
 }
 
-#[derive(Clone, PartialEq, Eq, std::hash::Hash)]
+#[derive(Clone, PartialEq, Eq, TypePath, std::hash::Hash)]
 enum Content {
     Panel,
     Button,

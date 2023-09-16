@@ -6,8 +6,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     App::default()
         .add_plugins(DefaultPlugins)
         // Add the `NinePatchPlugin` plugin
-        .add_plugin(NinePatchPlugin::<()>::default())
-        .add_startup_system(setup)
+        .add_plugins(NinePatchPlugin::<()>::default())
+        .add_systems(Startup, setup)
         .run();
 
     Ok(())
@@ -65,7 +65,8 @@ fn setup(
                     },
                     justify_content: JustifyContent::Center,
                     align_items: AlignItems::Center,
-                    size: Size::new(Val::Px(200.), Val::Px(100.)),
+                    width: Val::Px(200.),
+                    height: Val::Px(100.),
                     ..Default::default()
                 },
                 nine_patch_data: NinePatchData {
@@ -91,7 +92,8 @@ fn setup(
                 margin: UiRect::all(Val::Auto),
                 justify_content: JustifyContent::Center,
                 align_items: AlignItems::Center,
-                size: Size::new(Val::Px(500.), Val::Px(300.)),
+                width: Val::Px(500.),
+                height: Val::Px(300.),
                 ..Default::default()
             },
             // helper method when there is only one content zone
