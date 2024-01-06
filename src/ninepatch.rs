@@ -7,9 +7,10 @@ use bevy::{
 
 /// Represents Size of an element with width and height.
 #[derive(Debug, Clone, Copy)]
+#[allow(missing_docs)]
 pub struct Size {
-    width: Val,
-    height: Val,
+    pub width: Val,
+    pub height: Val,
 }
 
 impl Size {
