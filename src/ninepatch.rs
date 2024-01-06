@@ -276,7 +276,7 @@ impl<T: Clone + Send + Sync + Eq + std::hash::Hash + 'static> NinePatch<T> {
         });
         let mut rows = vec![];
         let mut n = 0;
-        for row in self.patches.iter() {
+        for (row_index, row) in self.patches.iter().enumerate() {
             let (size_height, growth) = row
                 .get(0)
                 .map(|p| match p.target_size.height {
@@ -311,7 +311,7 @@ impl<T: Clone + Send + Sync + Eq + std::hash::Hash + 'static> NinePatch<T> {
                 .id();
             rows.push(id);
             commands.entity(id).with_children(|row_parent| {
-                for column_item in row.iter() {
+                for (column_index, column_item) in row.iter().enumerate() {
                     let (size_width, growth) = match column_item.target_size.width {
                         Val::Px(value) if value == 0. => (
                             Val::Px(to_width(column_item.original_size, self.texture_size) as f32),
@@ -324,7 +324,11 @@ impl<T: Clone + Send + Sync + Eq + std::hash::Hash + 'static> NinePatch<T> {
                     };
                     let size_height = match column_item.target_size.height {
                         Val::Px(value) if value == 0. => {
-                            Val::Px(to_height(column_item.original_size, self.texture_size) as f32)
+                            if row_index == 1 && column_index == 1 {
+                                Val::Px(value)
+                            } else {
+                                Val::Px(to_height(column_item.original_size, self.texture_size) as f32)
+                            }
                         }
                         Val::Percent(_) => Val::Auto,
                         other => other,
